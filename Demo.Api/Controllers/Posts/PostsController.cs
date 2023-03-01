@@ -1,4 +1,6 @@
-﻿using Demo.Api.Proxies.Post;
+﻿using Demo.Api.Attributes;
+using Demo.Api.Config;
+using Demo.Api.Proxies.Post;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -15,6 +17,7 @@ namespace Demo.Api.Controllers.Posts
 			_postClient = postClient;
 		}
 
+		[AppRole(AppRoles.App)]
 		[HttpGet]
 		public async Task<List<Post>> GetAllPosts()
 		{
@@ -22,6 +25,7 @@ namespace Demo.Api.Controllers.Posts
 			return posts;
 		}
 
+		[AppRole(AppRoles.App)]
 		[HttpGet("{id}")]
 		public async Task<Post> GetPostById(int id)
 		{
