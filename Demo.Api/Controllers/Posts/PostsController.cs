@@ -1,5 +1,6 @@
 ﻿using Demo.Api.Attributes;
 using Demo.Api.Config;
+using Demo.Api.Filters;
 using Demo.Api.Proxies.Post;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -18,6 +19,7 @@ namespace Demo.Api.Controllers.Posts
 		}
 
 		[AppRole(AppRoles.App)]
+		[TypeFilter(typeof(CustomFilter))]
 		[HttpGet]
 		public async Task<List<Post>> GetAllPosts()
 		{
@@ -26,6 +28,7 @@ namespace Demo.Api.Controllers.Posts
 		}
 
 		[AppRole(AppRoles.App)]
+		[TypeFilter(typeof(CustomFilter))]
 		[HttpGet("{id}")]
 		public async Task<Post> GetPostById(int id)
 		{
