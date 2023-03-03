@@ -1,5 +1,6 @@
 using Demo.Api.Config;
 using Demo.Api.Proxies;
+using Demo.Api.Securities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,6 +32,7 @@ namespace Demo.Api
 			services.AddMvcCore(opt => {
 				opt.Conventions.Add(new AppRolesConvention(AppRoles.App));
 			});
+			services.AddScoped<IIdentityContextBuilder, UserContextBuilder>();
 			services.AddProxies(Configuration);
 			services.AddControllers();
 			services.AddSwaggerGen(c =>
@@ -48,6 +50,8 @@ namespace Demo.Api
 				app.UseSwagger();
 				app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Demo.Api v1"));
 			}
+
+			app.UseIdentityContext();
 
 			app.UseHttpsRedirection();
 

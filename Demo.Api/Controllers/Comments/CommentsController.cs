@@ -1,4 +1,7 @@
-﻿using Demo.Api.Proxies.Comment;
+﻿using Demo.Api.Attributes;
+using Demo.Api.Config;
+using Demo.Api.Proxies.Comment;
+using Demo.Api.Securities;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -15,6 +18,8 @@ namespace Demo.Api.Controllers.Comments
 			_commentClient = commentClient;
 		}
 
+		[AppRole(AppRoles.App)]
+		[AccountPermission(Feature.Feature1)]
 		[HttpGet]
 		public async Task<List<Comment>> GetAllComments()
 		{
@@ -22,6 +27,8 @@ namespace Demo.Api.Controllers.Comments
 			return comments;
 		}
 
+		[AppRole(AppRoles.App)]
+		[AccountPermission(Feature.Feature2)]
 		[HttpGet("{id}")]
 		public async Task<Comment> GetCommentById(int id)
 		{

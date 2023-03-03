@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Demo.Api.Securities;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace Demo.Api.Filters
 {
@@ -21,4 +24,12 @@ namespace Demo.Api.Filters
 			_logger.LogInformation("Do something before the action method is called");
 		}
 	}
+
+	public class CustomAttribute: TypeFilterAttribute
+	{
+        public CustomAttribute(params Feature[] features): base(typeof(CustomFilter))
+        {
+            Arguments = new object[] { features };
+        }
+    }
 }
