@@ -2,6 +2,7 @@
 using Demo.Api.Config;
 using Demo.Api.Filters;
 using Demo.Api.Proxies.Post;
+using Demo.Api.Securities;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace Demo.Api.Controllers.Posts
 		}
 
 		[AppRole(AppRoles.App)]
-		[TypeFilter(typeof(CustomFilter))]
+		[AccountPermission(Feature.Feature1, Feature.Feature2)]
 		[HttpGet]
 		public async Task<List<Post>> GetAllPosts()
 		{
@@ -28,7 +29,7 @@ namespace Demo.Api.Controllers.Posts
 		}
 
 		[AppRole(AppRoles.App)]
-		[TypeFilter(typeof(CustomFilter))]
+		[AccountPermission(Feature.Feature3)]
 		[HttpGet("{id}")]
 		public async Task<Post> GetPostById(int id)
 		{
