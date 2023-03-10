@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using CachingService;
+using Demo.Api.Extensions;
 
 namespace Demo.Api
 {
@@ -29,6 +30,7 @@ namespace Demo.Api
 			services.AddScoped<IIdentityContextBuilder, UserContextBuilder>();
 			services.AddDistributedCache(Configuration);
 			services.AddProxies(Configuration);
+			services.AddPostOption();
 			services.AddControllers();
 			services.AddSwaggerGen(c =>
 			{
