@@ -15,7 +15,11 @@ namespace CachingService
 		private readonly IDistributedCache _cache;
 		private readonly ILogger<DistributedCacheService> _logger;
 
-		public DistributedCacheService(IDistributedCache cache, ILogger<DistributedCacheService> logger)
+        public DistributedCacheService()
+        {
+            
+        }
+        public DistributedCacheService(IDistributedCache cache, ILogger<DistributedCacheService> logger)
 		{
 			_cache = cache;
 			_logger = logger;
