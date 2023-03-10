@@ -21,6 +21,7 @@ namespace Demo.Api.Controllers.Posts
 		private readonly ILogger<PostsController> _logger;	
 		private readonly IPost _postClient;
 		private readonly IDistributedCacheService _cacheService;
+		
 		public PostsController(IPost postClient, IDistributedCacheService cacheService, ILogger<PostsController> logger)
 		{
 			_postClient = postClient;
@@ -62,6 +63,15 @@ namespace Demo.Api.Controllers.Posts
 			}
 			return post;
 		}
-		
+
+		[AppRole(AppRoles.App)]
+		[AccountPermission(Feature.Feature1, Feature.Feature2)]
+		[HttpGet("option")]
+		public PostOptions GetPostOptions(
+			[FromServices] IPostService postService
+			)
+		{
+			return postService.GetPostOptions();
+		}
 	}
 }
