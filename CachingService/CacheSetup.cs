@@ -27,7 +27,7 @@ namespace CachingService
 					});
 					break;
 			}
-			return services.AddSingleton<IDistributedCacheService, DistributedCacheService>();
+			return services.AddSingleton<IBaseDistributedCache, BaseDistributedCache>();
 		}
 
 		public static IServiceCollection AddDistributedCache(this IServiceCollection services, IConfiguration configuration)

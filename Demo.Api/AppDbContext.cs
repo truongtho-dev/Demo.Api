@@ -1,4 +1,5 @@
-﻿using Demo.Api.Model;
+﻿using Demo.Api.Domain;
+using Demo.Api.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace Demo.Api
@@ -9,5 +10,6 @@ namespace Demo.Api
         {
         }
         public virtual DbSet<Student> Students { get; set; }
+        public virtual DbSet<Idempotency> Idempotencies { get; set; }
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using CachingService;
+using Demo.Api.Caching;
 using Demo.Api.Constants;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
@@ -8,19 +9,30 @@ using System.Threading.Tasks;
 
 namespace Demo.Api
 {
-	public interface IIdempotencyKeyCache { }
-	public class IdempotencyKeyCache : DistributedCacheService
+	public interface IIdempotencyKeyCache {
+		Task AddKeyAsync(Guid id, string idempotencyKey);
+		Task<bool> IsExists(Guid id, string idempotencyKey);
+	}
+	public class IdempotencyKeyCache : DistributedCacheService, IIdempotencyKeyCache
 	{
-		public async Task AddKeyAsync(Guid id, string idempotencyKey, CancellationToken cancellationToken)
+		public IdempotencyKeyCache(IBaseDistributedCache cache, ILogger<DistributedCacheService> logger) : base(cache, logger)
+		{
+		}
+
+		public async Task AddKeyAsync(Guid id, string idempotencyKey)
 		{
 			var key = string.Format(AppConstant.IDEMPOTENCY_KEY, id, idempotencyKey);
-			await SetAsync(key, idempotencyKey, TimeSpan.FromMinutes(10), cancellationToken);
+			await SetAsync(key, idempotencyKey, TimeSpan.FromMinutes(10));
+		}
+
+		public async Task<bool> IsExists(Guid id, string idempotencyKey)
+		{
+			var key = string.Format(AppConstant.IDEMPOTENCY_KEY, id, idempotencyKey);
+			var storedKey = await GetAsync<string>(key);
+
+			return storedKey != null;
 		}
 	}
 
-	public async Task IsExists(Guid id, string idempotencyKey, CancellationToken cancellationToken)
-	{
-		var key = string.Format(AppConstant.IDEMPOTENCY_KEY, id, idempotencyKey);
-		var storedKey = await this.GetAsync(key, cancellationToken);
-	}
+	
 }

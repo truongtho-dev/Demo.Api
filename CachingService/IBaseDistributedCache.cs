@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CachingService
 {
-	public interface IDistributedCacheService
+	public interface IBaseDistributedCache
 	{
 		Task<T> GetAsync<T>(string key, CancellationToken cancellationToken = default) where T : class;
 		Task SetAsync<T>(string key, T value, TimeSpan? expiredIn, CancellationToken cancellationToken = default) where T : class;

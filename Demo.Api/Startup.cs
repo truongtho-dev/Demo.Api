@@ -34,6 +34,7 @@ namespace Demo.Api
 			services.AddDistributedCache(Configuration);
 			services.AddProxies(Configuration);
 			services.AddPostOption();
+			services.AddSingleton<IIdempotencyKeyCache, IdempotencyKeyCache>();
 			services.AddControllers();
 			services.AddSwaggerGen(c =>
 			{

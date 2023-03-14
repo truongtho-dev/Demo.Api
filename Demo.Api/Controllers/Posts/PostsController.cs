@@ -20,9 +20,9 @@ namespace Demo.Api.Controllers.Posts
 	{
 		private readonly ILogger<PostsController> _logger;	
 		private readonly IPost _postClient;
-		private readonly IDistributedCacheService _cacheService;
+		private readonly IBaseDistributedCache _cacheService;
 		
-		public PostsController(IPost postClient, IDistributedCacheService cacheService, ILogger<PostsController> logger)
+		public PostsController(IPost postClient, IBaseDistributedCache cacheService, ILogger<PostsController> logger)
 		{
 			_postClient = postClient;
 			_cacheService = cacheService;

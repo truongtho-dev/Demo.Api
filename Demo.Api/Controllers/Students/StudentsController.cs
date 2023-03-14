@@ -1,16 +1,18 @@
 ﻿using Demo.Api.Attributes;
 using Demo.Api.Config;
+using Demo.Api.Constants;
 using Demo.Api.Model;
 using Demo.Api.Securities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Demo.Api.Controllers.Students
 {
-	public class StudentsController : BaseController
+	public class StudentsController : BaseController // for test IdempotencyKey
 	{
 		private readonly ILogger<StudentsController> _logger;
         private readonly AppDbContext _context; // without repository, handle error, validation for simple
@@ -32,13 +34,17 @@ namespace Demo.Api.Controllers.Students
 
 		[AppRole(AppRoles.App)]
 		[AccountPermission(Feature.Feature1, Feature.Feature2)]
-        [Idempotency()]
+        [Idempotency(IdempotencyType.Student)]
         [HttpPost]
-        public async Task<IActionResult> CreateStudent([FromBody] Student model)
+        public async Task<IActionResult> CreateStudent(
+            [FromBody] Student model,
+            [FromHeader(Name = AppConstant.IDEMPOTENCY_NAME)] Guid? idempotencyKey
+            )
         {
-            var result = _context.Students.Add(model);
+			model.IdempotencyKey = idempotencyKey ?? Guid.NewGuid();
+			var result = _context.Students.Add(model);
 			_ = await _context.SaveChangesAsync();
-            return Ok();
+            return Ok(result);
         }
 	}
 }
