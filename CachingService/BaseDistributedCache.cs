@@ -10,12 +10,16 @@ using System.Threading.Tasks;
 
 namespace CachingService
 {
-	public class DistributedCacheService: IDistributedCacheService
+	public class BaseDistributedCache: IBaseDistributedCache
 	{
 		private readonly IDistributedCache _cache;
-		private readonly ILogger<DistributedCacheService> _logger;
+		private readonly ILogger<BaseDistributedCache> _logger;
 
-		public DistributedCacheService(IDistributedCache cache, ILogger<DistributedCacheService> logger)
+        public BaseDistributedCache()
+        {
+            
+        }
+        public BaseDistributedCache(IDistributedCache cache, ILogger<BaseDistributedCache> logger)
 		{
 			_cache = cache;
 			_logger = logger;
@@ -33,7 +37,7 @@ namespace CachingService
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex, $"Failed to get cache key: {key}. Exception: {ex.Message}");
+				 _logger.LogError(ex, $"Failed to get cache key: {key}. Exception: {ex.Message}");
 				return null;
 			}
 		}

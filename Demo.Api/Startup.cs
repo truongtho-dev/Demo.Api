@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using CachingService;
 using Demo.Api.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Demo.Api
 {
@@ -24,6 +25,8 @@ namespace Demo.Api
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services.AddDbContext<AppDbContext>(
+				options => options.UseSqlServer(Configuration.GetConnectionString("DemoConnectionString")));
 			services.AddMvcCore(opt => {
 				opt.Conventions.Add(new AppRolesConvention(AppRoles.App));
 			});
@@ -31,6 +34,7 @@ namespace Demo.Api
 			services.AddDistributedCache(Configuration);
 			services.AddProxies(Configuration);
 			services.AddPostOption();
+			services.AddSingleton<IIdempotencyKeyCache, IdempotencyKeyCache>();
 			services.AddControllers();
 			services.AddSwaggerGen(c =>
 			{
