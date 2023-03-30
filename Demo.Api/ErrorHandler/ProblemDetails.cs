@@ -1,18 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 
 namespace Demo.Api.ErrorHandler
 {
-	public class ProblemDetail
+	public class ProblemDetails
 	{
 		private const string INVALID_ARGUMENT = "invalid_argument";
 
-		public ProblemDetail(string errorMessage)
+        public ProblemDetails(string errorMessage)
 		{
-			ErrorCode = "invalid_argument";
+			ErrorCode = INVALID_ARGUMENT;
 			ErrorMessage = errorMessage;
 		}
 
-		public ProblemDetail()
+		public ProblemDetails()
 		{
 		}
 
@@ -24,7 +25,7 @@ namespace Demo.Api.ErrorHandler
 
 		public string ErrorMessage { get; set; }
 
-		public IDictionary<string, string[]> ErrorDetails { get; set; } = (IDictionary<string, string[]>)new Dictionary<string, string[]>();
+		public IDictionary<string, string[]> ErrorDetails { get; set; } = new Dictionary<string, string[]>();
 
 		public bool ShouldSerializeErrorDetails()
 		{
